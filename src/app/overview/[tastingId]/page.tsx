@@ -1,5 +1,9 @@
+import { DeleteTastingDialog } from "@/app/admin/tastings/tasting-dialogs"
 import { TastingFullForm } from "@/app/admin/tastings/tasting-full-form"
+import { Separator } from "@/components/ui/separator"
 import { getFullTastingDAO } from "@/services/tasting-services"
+import TastingControls from "../tasting-controls"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 type Props = {
     params: {
@@ -16,8 +20,16 @@ export default async function TastingPage({ params }: Props) {
     return (
         <div className="w-full">
             {/** @ts-ignore */}
-            <p className="text-3xl font-bold mt-5 mb-10 text-center">{tasting.wineName} {tasting.vintage} - {tasting.wine.producer.name}</p>
+            <div className="mt-5 mb-10 flex justify-between">
+                <p></p>
+                <p className="text-3xl font-bold text-center">{tasting.wineName} {tasting.vintage} - {tasting.wine.producer.name}</p>
+                <TooltipProvider delayDuration={0}>
+                    <TastingControls tasting={tasting} />
+                </TooltipProvider>
+
+            </div>
             
+
             <TastingFullForm id={params.tastingId}/>
         </div>
   )
