@@ -511,12 +511,12 @@ export function TastingFullForm({ id }: Props) {
 
           <div className="flex justify-center py-10 gap-4">
             <Link href={`/overview`} prefetch={false}>
-              <Button variant="outline" className="w-32 ml-2">
+              <Button variant="outline" type="button" className="w-32 ml-2">
                 {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <EyeOff /></p>}
               </Button>
             </Link>
             <Link href={`/overview?v=true`} prefetch={false}>
-              <Button variant="outline" className="w-32 ml-2">
+              <Button variant="outline" type="button" className="w-32 ml-2">
                 {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <Eye /></p>}
               </Button>
             </Link>
