@@ -1,0 +1,108 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  role          String    @default("user") // gennext: skip.zod
+  emailVerified DateTime? // gennext: skip.zod
+  image         String? // gennext: skip.zod
+  accounts      Account[] // gennext: skip.list
+  sessions      Session[] // gennext: skip.list
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique // gennext: skip.zod
+  userId       String   // gennext: skip.zod
+  expires      DateTime // gennext: skip.zod
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Producer {
+  id             String       @id @default(cuid())
+  name           String       // gennext: show.column
+
+  createdAt      DateTime     @default(now())// gennext: skip.zod
+  updatedAt      DateTime     @updatedAt// gennext: skip.zod
+
+  wines          Wine[]
+}
+
+model Wine {
+  id             String       @id @default(cuid())
+  name           String       // gennext: show.column
+  region         String       // gennext: show.column
+  country        String       @default("Uruguay")// gennext: skip.zod
+
+  producerId     String
+  producer       Producer     @relation(fields: [producerId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime     @default(now())// gennext: skip.zod
+  updatedAt      DateTime     @updatedAt// gennext: skip.zod
+
+  tastings       Tasting[]
+}
+
+model Tasting {
+  id             String       @id @default(cuid())
+  taster         String       // gennext: show.column
+  vintage        Int          // gennext: show.column
+
+  colour         String?      // gennext: show.column
+  abv            Float?       // gennext: show.column
+  pesoPrice      Float?       // gennext: show.column
+  score          Int?         // gennext: show.column
+
+  aromas         String?      // gennext: show.column
+  acidity        String?      // gennext: show.column
+  tannins        String?      // gennext: show.column
+  body           String?      // gennext: show.column
+  finish         String?      // gennext: show.column
+  potential      String?      // gennext: show.column
+
+  conclusion     String?      // gennext: show.column
+
+  tastingDate    DateTime?    // gennext: show.column
+
+  wineId         String
+  wine           Wine         @relation(fields: [wineId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime     @default(now())// gennext: skip.zod
+  updatedAt      DateTime     @updatedAt// gennext: skip.zod
+}
