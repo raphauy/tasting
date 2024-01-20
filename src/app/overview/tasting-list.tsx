@@ -31,8 +31,8 @@ export default function TastingList({ tastings, visible }: Props) {
                         <div className="flex items-center gap-10">
                             <p className="w-12">{tasting.taster}</p>
                             <p className="w-12 font-semibold">{tasting.vintage}</p>
-                            { tasting.abv ? <p className="w-14 text-right">{tasting.abv}%</p> : "" }
-                            { tasting.pesoPrice ? <p className="w-20 text-right">{tasting.pesoPrice} UYU</p> : "" }
+                            <p className="w-14 text-right">{ tasting.abv ? tasting.abv + "%" : "" }</p>
+                            <p className="w-20 text-right">{tasting.pesoPrice ? tasting.pesoPrice + "UYU" : ""}</p>
                             <ScoreBox score={tasting.score} visible={visible} />
                         </div>
 
