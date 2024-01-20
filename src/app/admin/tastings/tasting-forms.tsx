@@ -91,62 +91,6 @@ export function TastingForm({ id, wineId, closeDialog }: Props) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="colour"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Colour</FormLabel>
-                <FormControl>
-                  <Input placeholder="Tasting's colour" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="abv"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ABV</FormLabel>
-                <FormControl>
-                  <Input placeholder="Tasting's ABV" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="pesoPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Peso price</FormLabel>
-                <FormControl>
-                  <Input placeholder="Tasting's peso price" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="score"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Score</FormLabel>
-                <FormControl>
-                  <Input placeholder="Tasting's score" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
         <div className="flex justify-end">
             <Button onClick={() => closeDialog && closeDialog()} type="button" variant={"secondary"} className="w-32">Cancel</Button>
             <Button type="submit" className="w-32 ml-2">
