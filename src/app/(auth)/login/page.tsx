@@ -9,10 +9,12 @@ export default async function AuthenticationPage() {
   const user= await getCurrentUser()
   const role= user?.role
   console.log("login: " + role)  
-  if (role === "admin")
-    redirect("/admin")
-  else {
+  if (user && role !== "admin") {
     return <div>You are not authorized to access this page</div>
+  }
+
+  if (user && role === "admin"){
+    redirect("/admin")
   }
 
     return (
