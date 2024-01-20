@@ -15,7 +15,8 @@ export default async function TastingPage({ params }: Props) {
     }
     return (
         <div className="w-full">
-            <p className="text-3xl font-bold mt-5 mb-10 text-center">{tasting.wine.name} {tasting.vintage} - {tasting.wine.producer.name}</p>
+            {/** @ts-ignore */}
+            <p className="text-3xl font-bold mt-5 mb-10 text-center">{tasting.wineName} {tasting.vintage} - {tasting.wine.producer.name}</p>
             
             <TastingFullForm id={params.tastingId}/>
         </div>
