@@ -486,7 +486,7 @@ export function TastingFullForm({ id }: Props) {
                   <FormItem className="flex items-center gap-4">
                     <FormLabel className="text-2xl font-bold mt-2">Score:</FormLabel>
                     <FormControl>
-                      <Input className="text-xl font-bold text-center" type="number" placeholder="Tasting's score" {...field} />
+                      <Input className="text-xl font-bold text-center" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
