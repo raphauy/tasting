@@ -40,7 +40,7 @@ export default function TastingList({ tastings, visible }: Props) {
                                 <ScoreBox score={tasting.score} visible={visible} />
                                     {
                                         tasting.tastingNote && (
-                                            <div className="flex items-center justify-between w-full">
+                                            <div className="flex items-center justify-between w-full py-2">
                                                 <p className="line-clamp-3">{tasting.tastingNote}</p>
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
