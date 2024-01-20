@@ -2,12 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 
 export default function MenuAdmin() {
 
     const path= usePathname()
+    const searchParams= useSearchParams()
 
     return (
         <div className="flex flex-1 gap-6 pl-5 md:gap-5 ">
@@ -16,9 +17,13 @@ export default function MenuAdmin() {
                     <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", path.includes("admin") && "border-b-2")}>
                         <Link href="/admin"><Button className="text-lg" variant="ghost">Admin</Button></Link>
                     </li>
-                    <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", path.includes("overview") && "border-b-2")}>
+                    <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", path.includes("overview") && searchParams.get("p") !== "ALL" && "border-b-2")}>
                         <Link href={`/overview`}><Button className="text-lg" variant="ghost">Overview</Button></Link>
                     </li>
+                    <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", searchParams.get("p") === "ALL" && "border-b-2")}>
+                        <Link href={`/overview?p=ALL`}><Button className="text-lg" variant="ghost">ALL</Button></Link>
+                    </li>
+                    
                 </ul>
             </nav>
         </div>

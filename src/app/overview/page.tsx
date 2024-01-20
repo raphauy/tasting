@@ -38,6 +38,10 @@ export default async function OverviewPage({ searchParams }: Props) {
         const producer= await getFullProducerDAO(p)
         producers= []
         producers.push(producer)        
+    } else if (p && p === "ALL") {
+        producers= await getFullProducersDAO()
+    } else {
+        producers= []
     }
 
     return (

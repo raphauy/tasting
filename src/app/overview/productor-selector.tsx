@@ -68,11 +68,11 @@ export function ProductorSelector({ selectors }: Props) {
             >
               {value === "ALL" ? "ALL" : value
                 ? selectors.find(selector => selector.name === value)?.name
-                : "Select productor..."}
+                : "Select producer..."}
               <div className="flex items-center">
                 {value === "ALL" ? selectors.reduce((acc, curr) => acc + curr.count, 0) : value
                 ? selectors.find(selector => selector.name === value)?.count
-                : "Select productor..."}
+                : ""}
                 <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
               </div>
             </Button>

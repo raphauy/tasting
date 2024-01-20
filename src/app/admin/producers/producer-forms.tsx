@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Loader } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type Props= {
   id?: string
@@ -86,6 +87,7 @@ export function ProducerForm({ id, closeDialog }: Props) {
 
 export function DeleteProducerForm({ id, closeDialog }: Props) {
   const [loading, setLoading] = useState(false)
+  const router= useRouter()
 
   async function handleDelete() {
     if (!id) return
@@ -93,6 +95,8 @@ export function DeleteProducerForm({ id, closeDialog }: Props) {
     deleteProducerAction(id)
     .then(() => {
       toast({title: "Producer deleted" })
+      closeDialog && closeDialog()
+      router.push("/overview")
     })
     .catch((error) => {
       toast({title: "Error", description: error.message, variant: "destructive"})
