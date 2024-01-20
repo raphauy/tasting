@@ -8,7 +8,7 @@ type Props = {
 export default function ScoreBox({ score, visible }: Props) {
 
     if (!score) 
-        return null
+        return <div className="w-9 min-w-9" />
 
     // red: 88- 
     // yellow: 90 91 92

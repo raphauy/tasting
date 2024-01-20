@@ -5,6 +5,8 @@ import TastingControls from "./tasting-controls"
 import { useState } from "react"
 import ScoreBox from "./score-box"
 import Link from "next/link"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Info } from "lucide-react"
 
 type Props = {
     tastings: TastingDAO[]
@@ -29,14 +31,33 @@ export default function TastingList({ tastings, visible }: Props) {
                         onMouseEnter={() => handleMouseEnter(tasting.id)}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <Link href={`/overview/${tasting.id}`} prefetch={false}>
-                            <div className="flex items-center gap-10">
+                        <Link href={`/overview/${tasting.id}`} prefetch={false} className="w-full">
+                            <div className="flex items-center gap-10 border-b w-full">
                                 <p className="min-w-12">{tasting.taster}</p>
                                 <p className="min-w-12 font-semibold">{tasting.vintage}</p>
                                 <p className="min-w-14 text-right">{ tasting.abv ? tasting.abv + "%" : "" }</p>
                                 <p className="min-w-20 text-right">{tasting.pesoPrice ? tasting.pesoPrice + "UYU" : ""}</p>
                                 <ScoreBox score={tasting.score} visible={visible} />
-                                <p className="w-fit">{tasting.tastingNote ? tasting.tastingNote : ""}</p>
+                                    {
+                                        tasting.tastingNote && (
+                                            <div className="flex items-center justify-between w-full">
+                                                <p className="line-clamp-3">{tasting.tastingNote}</p>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <div>
+                                                            <Info size={20} />
+                                                        </div>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <div className="max-w-lg text-base">
+                                                            <p>{tasting.tastingNote}</p>
+                                                        </div>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </div>
+                                        )
+                                    }
+
                             </div>
                         </Link>
 
