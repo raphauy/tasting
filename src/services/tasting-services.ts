@@ -137,7 +137,11 @@ export async function getFullTastingDAO(id: string) {
 			wine: {
         include: {
           producer: true,
-          tastings: true
+          tastings: {
+            orderBy: {
+              vintage: 'asc'
+            }
+          }
         }
       }
 		}
