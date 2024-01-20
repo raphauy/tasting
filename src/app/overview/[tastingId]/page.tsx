@@ -22,7 +22,7 @@ export default async function TastingPage({ params }: Props) {
             <div className="mt-5 mb-10 flex justify-between">
                 <p></p>
                 {/** @ts-ignore */}
-                <p className="text-3xl font-bold text-center">{tasting.wine.name} {tasting.vintage} - {tasting.wine.producer.name}</p>
+                <p className="text-3xl font-bold text-center">{tasting.wine.producer.name} - {tasting.wine.name} {tasting.vintage}</p>
                 <TooltipProvider delayDuration={0}>
                     <TastingControls tasting={tasting} />
                 </TooltipProvider>
