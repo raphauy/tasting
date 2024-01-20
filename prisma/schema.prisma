@@ -84,19 +84,23 @@ model Tasting {
   taster         String       // gennext: show.column
   vintage        Int          // gennext: show.column
 
+  style          String?      // gennext: show.column
   colour         String?      // gennext: show.column
   abv            Float?       // gennext: show.column
   pesoPrice      Float?       // gennext: show.column
   score          Int?         // gennext: show.column
 
   aromas         String?      // gennext: show.column
+  aromasDescriptors String?   // gennext: show.column
   acidity        String?      // gennext: show.column
   tannins        String?      // gennext: show.column
   body           String?      // gennext: show.column
   finish         String?      // gennext: show.column
   potential      String?      // gennext: show.column
+  aging          String?      // gennext: show.column
 
   conclusion     String?      // gennext: show.column
+  tastingNote    String?      // gennext: show.column
 
   tastingDate    DateTime?    // gennext: show.column
 

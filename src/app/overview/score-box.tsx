@@ -29,7 +29,7 @@ export default function ScoreBox({ score, visible }: Props) {
     }
 
     return (
-        <div className={cn("flex hover:text-muted-foreground justify-center items-center w-9 h-9 border rounded-full", !visible && "bg-white text-white", visible && color)}>
+        <div className={cn("flex hover:text-muted-foreground justify-center items-center min-w-9 w-9 h-9 border rounded-full", !visible && "bg-white text-white", visible && color)}>
             <p className={cn("font-bold")}>{score}</p>
         </div>
     )

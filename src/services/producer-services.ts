@@ -147,6 +147,7 @@ export async function getFullProducersDAO() {
       }
 		}
   })
+  // @ts-ignore
   return found as ProducerDAO[]
 }
   

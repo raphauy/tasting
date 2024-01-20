@@ -476,7 +476,7 @@ export function TastingFullForm({ id }: Props) {
               )}
             />           
 
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-10">
             <div className="border p-10 rounded-lg w-64 shadow-xl">
               <FormField
                 control={form.control}
@@ -494,6 +494,20 @@ export function TastingFullForm({ id }: Props) {
 
             </div>
           </div>
+
+          <TitleBox title="Tasting Note" />
+          <FormField
+              control={form.control}
+              name="tastingNote"
+              render={({ field }) => (
+                <FormItem className="w-full ml-2 font-bold">
+                  <FormControl>
+                    <Textarea className="text-2xl" rows={5} placeholder="Conclusions" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />           
 
           <div className="flex justify-center py-10 gap-4">
             <Link href={`/overview`} prefetch={false}>

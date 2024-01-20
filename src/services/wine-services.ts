@@ -139,6 +139,7 @@ export async function getFullWinesDAO() {
 			tastings: true,
 		}
   })
+  // @ts-ignore
   return found as WineDAO[]
 }
   
@@ -152,6 +153,7 @@ export async function getFullWineDAO(id: string) {
 			tastings: true,
 		}
   })
+  // @ts-ignore
   return found as WineDAO
 }
     

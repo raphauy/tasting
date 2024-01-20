@@ -8,6 +8,7 @@ import { format } from "date-fns"
 import { DeleteWineDialog, WineDialog } from "./wine-dialogs"
 
 import { TastingsDialog } from "./wine-dialogs"
+import { TooltipProvider } from "@/components/ui/tooltip"
   
 
 export const columns: ColumnDef<WineDAO>[] = [
@@ -58,14 +59,15 @@ export const columns: ColumnDef<WineDAO>[] = [
       const deleteDescription= `Do you want to delete Wine ${data.id}?`
  
       return (
-        <div className="flex items-center justify-end gap-2">
+        <TooltipProvider delayDuration={0}>
+          <div className="flex items-center justify-end gap-2">
 
-          <TastingsDialog id={data.id} title={"Tastings"} />
-  
-          <WineDialog id={data.id} producerId={data.producerId} />
-          <DeleteWineDialog description={deleteDescription} id={data.id} />
-        </div>
-
+            <TastingsDialog id={data.id} title={"Tastings"} />
+    
+            <WineDialog id={data.id} producerId={data.producerId} />
+            <DeleteWineDialog description={deleteDescription} id={data.id} />
+          </div>
+        </TooltipProvider>
       )
     },
   },

@@ -1,26 +1,29 @@
 import * as z from "zod"
 import { prisma } from "@/lib/db"
 import { WineDAO } from "./wine-services"
+import { ProducerDAO } from "./producer-services"
 
 export type TastingDAO = {
 	id: string
 	taster: string
 	vintage: number
-  // write the type of colour based on colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny"]).optional(),
+  style?: "sparkling" | "white" | "rosé" | "red" | "fortified" | ""
 	colour?: "lemon" | "gold" | "amber" | "pink" | "pink-orange" | "orange" | "purple" | "ruby" | "garnet" | "tawny"
 	abv?: number
 	pesoPrice?: number
 	score?: number
 	aromas?: "primary" | "secondary" | "tertiary" | ""
+  aromasDescriptors?: string
 	acidity?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
 	tannins?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
 	body?: "light" | "medium(-)" | "medium" | "medium(+)" | "full" | ""
 	finish?: "short" | "medium(-)" | "medium" | "medium(+)" | "long" | ""
 	potential?: "suitable for bottle ageing" | "not suitable for bottle ageing" | ""
-	conclusion?: string | ""
+	conclusion?: string
+  tastingNote?: string
   tastingDate?: Date
 	wineId: string
-	wine: WineDAO
+	//wine: WineDAO
 	createdAt: Date
 	updatedAt: Date
   wineName?: string
@@ -39,6 +42,7 @@ export const tastingSchema = z.object({
   finish: z.enum(["short", "medium(-)", "medium", "medium(+)", "long", ""]).optional(),
   potential: z.enum(["suitable for bottle ageing", "not suitable for bottle ageing", ""]).optional(),
   conclusion: z.string().optional(),
+  tastingNote: z.string().optional(),
   abv: z.coerce.number().optional(),
   pesoPrice: z.coerce.number().optional(),
   score: z.coerce.number().optional(),
@@ -52,6 +56,9 @@ export async function getTastingsDAO() {
     orderBy: {
       id: 'asc'
     },
+    include: {
+      wine: true
+    }    
   })
   return found as TastingDAO[]
 }
@@ -61,6 +68,13 @@ export async function getTastingDAO(id: string) {
     where: {
       id
     },
+    include: {
+      wine: {
+        include: {
+          producer: true
+        }
+      }
+    }
   })
   return found as TastingDAO
 }
