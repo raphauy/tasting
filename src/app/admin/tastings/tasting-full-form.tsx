@@ -136,7 +136,7 @@ export function TastingFullForm({ id }: Props) {
                     defaultValue={field.value}
                     className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormLabel className="font-semibold mt-0.5 w-12 text-black">
                         White:
                       </FormLabel>
@@ -158,8 +158,8 @@ export function TastingFullForm({ id }: Props) {
                       </FormItem>
                     </div>
 
-                    <div className="flex gap-4">
-                      <FormLabel className="font-semibold mt-0.5 w-12">
+                    <div className="flex gap-4 pb-1">
+                      <FormLabel className="font-semibold mt-0.5 w-12 text-black">
                         Rosé:
                       </FormLabel>
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
@@ -176,8 +176,8 @@ export function TastingFullForm({ id }: Props) {
                       </FormItem>
                     </div>
 
-                    <div className="flex gap-4">
-                      <FormLabel className="font-semibold mt-0.5 w-12">
+                    <div className="flex gap-4 pb-1">
+                      <FormLabel className="font-semibold mt-0.5 w-12 text-black">
                         Red:
                       </FormLabel>
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
@@ -211,7 +211,7 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="aromas"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
+              <FormItem className="flex items-center pb-5 pl-2 justify-between">
                 <div className="font-bold flex items-center gap-5">
                   <p className="w-20 mt-0.5">Aromas:</p>
                   <p className="text-black text-2xl">{field.value}</p>
@@ -222,7 +222,7 @@ export function TastingFullForm({ id }: Props) {
                     defaultValue={field.value}
                     className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
                         <FormControl><RadioGroupItem value="primary" /></FormControl>
                         <FormLabel>primary</FormLabel>
@@ -250,8 +250,8 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="acidity"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
-                <div className="font-bold flex items-center gap-5">
+              <FormItem className="flex items-center pl-2 justify-between hover:bg-green-100 rounded-lg">
+                <div className="font-bold flex items-center gap-5 h-9">
                   <p className="w-20 mt-0.5">Acidity:</p>
                   <p className="text-black text-2xl">{field.value}</p>
                 </div>
@@ -259,9 +259,8 @@ export function TastingFullForm({ id }: Props) {
                   <RadioGroup                  
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
                         <FormControl><RadioGroupItem value="low" /></FormControl>
                         <FormLabel>low</FormLabel>
@@ -295,8 +294,8 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="tannins"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
-                <div className="font-bold flex items-center gap-5">
+              <FormItem className="flex items-center pl-2 justify-between hover:bg-green-100 rounded-lg">
+                <div className="font-bold flex items-center gap-5 h-9">
                   <p className="w-20 mt-0.5">Tannins:</p>
                   <p className="text-black text-2xl">{field.value}</p>
                 </div>
@@ -306,7 +305,7 @@ export function TastingFullForm({ id }: Props) {
                     defaultValue={field.value}
                     className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
                         <FormControl><RadioGroupItem value="low" /></FormControl>
                         <FormLabel>low</FormLabel>
@@ -340,8 +339,8 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="body"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
-                <div className="font-bold flex items-center gap-5">
+              <FormItem className="flex items-center pl-2 justify-between hover:bg-green-100 rounded-lg">
+                <div className="font-bold flex items-center gap-5 h-9">
                   <p className="w-20 mt-0.5">Body:</p>
                   <p className="text-black text-2xl">{field.value}</p>
                 </div>
@@ -351,7 +350,7 @@ export function TastingFullForm({ id }: Props) {
                     defaultValue={field.value}
                     className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
                         <FormControl><RadioGroupItem value="light" /></FormControl>
                         <FormLabel>light</FormLabel>
@@ -385,8 +384,8 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="finish"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
-                <div className="font-bold flex items-center gap-5">
+              <FormItem className="flex items-center pb-5 pl-2 justify-between hover:bg-green-100 rounded-lg">
+                <div className="font-bold flex items-center gap-5 h-9">
                   <p className="w-20 mt-0.5">Finish:</p>
                   <p className="text-black text-2xl">{field.value}</p>
                 </div>
@@ -396,7 +395,7 @@ export function TastingFullForm({ id }: Props) {
                     defaultValue={field.value}
                     className="flex flex-col gap-4"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pb-1">
                       <FormItem className="flex items-center space-x-1 space-y-0 w-28">
                         <FormControl><RadioGroupItem value="short" /></FormControl>
                         <FormLabel>short</FormLabel>
