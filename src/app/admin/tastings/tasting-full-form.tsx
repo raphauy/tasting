@@ -22,10 +22,9 @@ import TitleBox from "./title-box"
 type Props= {
   id: string
   producerId: string
-  wine: WineDAO
 }
 
-export function TastingFullForm({ id, producerId, wine }: Props) {
+export function TastingFullForm({ id, producerId }: Props) {
   const form = useForm<TastingFormValues>({
     resolver: zodResolver(tastingSchema),
     defaultValues: {},
@@ -634,10 +633,6 @@ export function TastingFullForm({ id, producerId, wine }: Props) {
         </form>
       </Form>
 
-      <p className="font-bold text-2xl mt-5">Other tastings of this wine:</p>
-      <TooltipProvider delayDuration={0}>
-        <TastingList tastings={wine.tastings.filter(tasting => tasting.id !== id)} visible={true} />
-      </TooltipProvider>
     </div>     
   )
 }

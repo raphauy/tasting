@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { getFullTastingDAO } from "@/services/tasting-services"
 import TastingControls from "../tasting-controls"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import TastingList from "../tasting-list"
 
 type Props = {
     params: {
@@ -20,7 +21,7 @@ export default async function TastingPage({ params }: Props) {
         return <div>Tasting Not found</div>
     }
     return (
-        <div className="w-full">
+        <div className="w-full mb-10">
             <div className="mt-5 mb-10 flex justify-between">
                 <p></p>
                 {/** @ts-ignore */}
@@ -33,7 +34,15 @@ export default async function TastingPage({ params }: Props) {
             
 
             {/** @ts-ignore */}
-            <TastingFullForm id={params.tastingId} producerId={tasting.wine.producer.id} wine={wine} />
+            <TastingFullForm id={params.tastingId} producerId={tasting.wine.producer.id} />
+
+            <Separator />
+            <p className="font-bold text-2xl mt-5">Other tastings of this wine:</p>
+            <TooltipProvider delayDuration={0}>
+                {/** @ts-ignore */}
+                <TastingList tastings={wine.tastings.filter(tasting => tasting.id !== params.tastingId)} visible={true} />
+            </TooltipProvider>
+
         </div>
   )
 }
