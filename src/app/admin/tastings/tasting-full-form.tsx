@@ -9,11 +9,12 @@ import { tastingSchema, TastingFormValues } from '@/services/tasting-services'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Loader } from "lucide-react"
+import { Eye, EyeOff, Loader } from "lucide-react"
 import TitleBox from "./title-box"
 import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
+import Link from "next/link"
 
 type Props= {
   id: string
@@ -494,7 +495,17 @@ export function TastingFullForm({ id }: Props) {
             </div>
           </div>
 
-        <div className="flex justify-end">
+          <div className="flex justify-center py-10 gap-4">
+            <Link href={`/overview`} prefetch={false}>
+              <Button variant="outline" className="w-32 ml-2">
+                {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <EyeOff /></p>}
+              </Button>
+            </Link>
+            <Link href={`/overview?v=true`} prefetch={false}>
+              <Button variant="outline" className="w-32 ml-2">
+                {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <Eye /></p>}
+              </Button>
+            </Link>
             <Button type="submit" className="w-32 ml-2">
               {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p>Save</p>}
             </Button>
