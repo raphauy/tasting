@@ -1,28 +1,31 @@
 "use client"
 
+import TastingList from "@/app/overview/tasting-list"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import { TastingFormValues, tastingSchema } from '@/services/tasting-services'
+import { WineDAO } from "@/services/wine-services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { BadgeInfo, Eye, EyeOff, Info, Loader } from "lucide-react"
+import { Eye, EyeOff, Loader } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { createOrUpdateTastingAction, getTastingDAOAction } from "./tasting-actions"
 import TitleBox from "./title-box"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import Image from "next/image"
 
 type Props= {
   id: string
   producerId: string
+  wine: WineDAO
 }
 
-export function TastingFullForm({ id, producerId }: Props) {
+export function TastingFullForm({ id, producerId, wine }: Props) {
   const form = useForm<TastingFormValues>({
     resolver: zodResolver(tastingSchema),
     defaultValues: {},
@@ -58,7 +61,7 @@ export function TastingFullForm({ id, producerId }: Props) {
   }, [form, id])
 
   return (
-    <div className="bg-white rounded-md">
+    <div className="bg-white rounded-md mb-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           
@@ -630,6 +633,11 @@ export function TastingFullForm({ id, producerId }: Props) {
           </div>
         </form>
       </Form>
+
+      <p className="font-bold text-2xl mt-5">Other tastings of this wine:</p>
+      <TooltipProvider delayDuration={0}>
+        <TastingList tastings={wine.tastings.filter(tasting => tasting.id !== id)} visible={true} />
+      </TooltipProvider>
     </div>     
   )
 }

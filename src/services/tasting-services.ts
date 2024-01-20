@@ -136,11 +136,12 @@ export async function getFullTastingDAO(id: string) {
     include: {
 			wine: {
         include: {
-          producer: true
+          producer: true,
+          tastings: true
         }
       }
 		}
   })
   return found as TastingDAO
 }
-    
+

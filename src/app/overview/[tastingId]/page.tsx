@@ -14,6 +14,8 @@ type Props = {
 export default async function TastingPage({ params }: Props) {
     const tastingId = params.tastingId
     const tasting= await getFullTastingDAO(tastingId)
+    //@ts-ignore
+    const wine= tasting.wine
     if (!tasting) {
         return <div>Tasting Not found</div>
     }
@@ -31,7 +33,7 @@ export default async function TastingPage({ params }: Props) {
             
 
             {/** @ts-ignore */}
-            <TastingFullForm id={params.tastingId} producerId={tasting.wine.producer.id} />
+            <TastingFullForm id={params.tastingId} producerId={tasting.wine.producer.id} wine={wine} />
         </div>
   )
 }
