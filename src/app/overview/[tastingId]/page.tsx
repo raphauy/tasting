@@ -30,7 +30,8 @@ export default async function TastingPage({ params }: Props) {
             </div>
             
 
-            <TastingFullForm id={params.tastingId}/>
+            {/** @ts-ignore */}
+            <TastingFullForm id={params.tastingId} producerId={tasting.wine.producer.id} />
         </div>
   )
 }

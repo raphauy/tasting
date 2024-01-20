@@ -157,9 +157,25 @@ export async function getFullProducerDAO(id: string) {
       id
     },
     include: {
-			wines: true,
-		}
+      wines: {
+        include: {
+          tastings: {
+            orderBy: [
+              {
+                vintage: 'asc'
+              },
+              {
+                taster: 'asc'
+              }
+            ]
+          }
+        },
+        orderBy: {
+          name: 'asc'
+        }
+      }
+    }
   })
+  
   return found as ProducerDAO
 }
-    

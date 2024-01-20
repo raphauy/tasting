@@ -1,26 +1,28 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "@/components/ui/use-toast"
-import { useEffect, useState } from "react"
-import { deleteTastingAction, createOrUpdateTastingAction, getTastingDAOAction } from "./tasting-actions"
-import { tastingSchema, TastingFormValues } from '@/services/tasting-services'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Eye, EyeOff, Loader } from "lucide-react"
-import TitleBox from "./title-box"
-import { Separator } from "@/components/ui/separator"
+import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/use-toast"
+import { TastingFormValues, tastingSchema } from '@/services/tasting-services'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { BadgeInfo, Eye, EyeOff, Info, Loader } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { createOrUpdateTastingAction, getTastingDAOAction } from "./tasting-actions"
+import TitleBox from "./title-box"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import Image from "next/image"
 
 type Props= {
   id: string
+  producerId: string
 }
 
-export function TastingFullForm({ id }: Props) {
+export function TastingFullForm({ id, producerId }: Props) {
   const form = useForm<TastingFormValues>({
     resolver: zodResolver(tastingSchema),
     defaultValues: {},
@@ -120,6 +122,51 @@ export function TastingFullForm({ id }: Props) {
           </div>
 
           <TitleBox title="Apperance" />
+
+          <FormField
+            control={form.control}
+            name="style"
+            render={({ field }) => (
+              <FormItem className="flex items-center pb-5 pl-2 justify-between">
+                <div className="font-bold flex items-center gap-5">
+                  <p className="w-20 mt-0.5">Style:</p>
+                  <p className="text-black text-2xl">{field.value}</p>
+                </div>
+                <FormControl>
+                  <RadioGroup                  
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col gap-4"
+                  >
+                    <div className="flex gap-4 pb-1">
+                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
+                        <FormControl><RadioGroupItem value="sparkling" /></FormControl>
+                        <FormLabel>sparkling</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
+                        <FormControl><RadioGroupItem value="white" /></FormControl>
+                        <FormLabel>white</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
+                        <FormControl><RadioGroupItem value="rosé" /></FormControl>
+                        <FormLabel>rosé</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
+                        <FormControl><RadioGroupItem value="red" /></FormControl>
+                        <FormLabel>red</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
+                        <FormControl><RadioGroupItem value="fortified" /></FormControl>
+                        <FormLabel>fortified</FormLabel>
+                      </FormItem>
+                    </div>
+
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
@@ -236,13 +283,55 @@ export function TastingFullForm({ id }: Props) {
                         <FormLabel>tertiary</FormLabel>
                       </FormItem>
                     </div>
-
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          <TooltipProvider delayDuration={0}>
+            <div className="flex ml-28 gap-7">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex hover:text-muted-foreground justify-center font-bold items-center bg-green-200 w-6 h-6 border rounded-full">1</div>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <Image src="/primary.png" width={900} height={300} alt="Primary aromas" />
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex hover:text-muted-foreground justify-center font-bold items-center bg-green-200 w-6 h-6 border rounded-full">2</div>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <Image src="/secondary.png" width={800} height={300} alt="Secondary aromas" />
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex hover:text-muted-foreground justify-center font-bold items-center bg-green-200 w-6 h-6 border rounded-full">3</div>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <Image src="/tertiary.png" width={800} height={300} alt="Tertiary aromas" />
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
+          <FormField
+            control={form.control}
+            name="aromasDescriptors"
+            render={({ field }) => (
+              <FormItem className="w-full flex items-center gap-2">
+                <p className="ml-2 font-bold mt-2">Descriptors:</p>
+                <FormControl>
+                  <Input placeholder="Aromas descriptors" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
 
           <TitleBox title="Palate" />
 
@@ -431,7 +520,7 @@ export function TastingFullForm({ id }: Props) {
             control={form.control}
             name="potential"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-10 pb-5 pl-2 justify-between">
+              <FormItem className="flex items-center gap-10 pl-2 justify-between">
                 <div className="font-bold flex items-center gap-5">
                   <p className="w-20 mt-0.5">Potential:</p>
                   <p className="text-black text-2xl">{field.value}</p>
@@ -460,21 +549,36 @@ export function TastingFullForm({ id }: Props) {
             )}
           />
 
-              
+          <FormField
+            control={form.control}
+            name="aging"
+            render={({ field }) => (
+              <FormItem className="w-full flex items-center gap-2 pb-1">
+                <p className="ml-2 font-bold mt-2">Ageing:</p>
+                <FormControl>
+                  <Input placeholder="Ageing" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+  
 
           <FormField
               control={form.control}
               name="conclusion"
               render={({ field }) => (
-                <FormItem className="w-full ml-2 font-bold">
-                  <p className="">Conclusions:</p>
+                <FormItem className="w-full ml-2 pb-5">
+                  <p className="font-bold">Conclusions:</p>
                   <FormControl>
-                    <Textarea className="text-2xl" rows={5} placeholder="Conclusions" {...field} />
+                    <Textarea className="text-lg" rows={5} placeholder="Conclusions" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />           
+
+          <TitleBox title="Score" />
 
           <div className="flex justify-center pb-10">
             <div className="border p-10 rounded-lg w-64 shadow-xl">
@@ -485,7 +589,7 @@ export function TastingFullForm({ id }: Props) {
                   <FormItem className="flex items-center gap-4">
                     <FormLabel className="text-2xl font-bold mt-2">Score:</FormLabel>
                     <FormControl>
-                      <Input className="text-xl font-bold text-center" type="number" {...field} />
+                      <Input className="text-lg font-bold text-center" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -500,9 +604,9 @@ export function TastingFullForm({ id }: Props) {
               control={form.control}
               name="tastingNote"
               render={({ field }) => (
-                <FormItem className="w-full ml-2 font-bold">
+                <FormItem className="w-full ml-2">
                   <FormControl>
-                    <Textarea className="text-2xl" rows={5} placeholder="Conclusions" {...field} />
+                    <Textarea className="text-lg" rows={5} placeholder="Conclusions" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -510,12 +614,12 @@ export function TastingFullForm({ id }: Props) {
             />           
 
           <div className="flex justify-center py-10 gap-4">
-            <Link href={`/overview`} prefetch={false}>
+            <Link href={`/overview?p=${producerId}`} prefetch={false}>
               <Button variant="outline" type="button" className="w-32 ml-2">
                 {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <EyeOff /></p>}
               </Button>
             </Link>
-            <Link href={`/overview?v=true`} prefetch={false}>
+            <Link href={`/overview?p=${producerId}&v=true`} prefetch={false}>
               <Button variant="outline" type="button" className="w-32 ml-2">
                 {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p className="flex items-center gap-2">Overview <Eye /></p>}
               </Button>

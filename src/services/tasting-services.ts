@@ -19,6 +19,7 @@ export type TastingDAO = {
 	body?: "light" | "medium(-)" | "medium" | "medium(+)" | "full" | ""
 	finish?: "short" | "medium(-)" | "medium" | "medium(+)" | "long" | ""
 	potential?: "suitable for bottle ageing" | "not suitable for bottle ageing" | ""
+  aging?: string
 	conclusion?: string
   tastingNote?: string
   tastingDate?: Date
@@ -35,12 +36,15 @@ export const tastingSchema = z.object({
 	vintage: z.coerce.number(),
 	wineId: z.string({required_error: "wineId is required."}),
   colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny", ""]).optional(),
+  style: z.enum(["sparkling", "white", "rosé", "red", "fortified", ""]).optional(),
   aromas: z.enum(["primary", "secondary", "tertiary", ""]).optional(),
+  aromasDescriptors: z.string().optional(),
   acidity: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
   tannins: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
   body: z.enum(["light", "medium(-)", "medium", "medium(+)", "full", ""]).optional(),
   finish: z.enum(["short", "medium(-)", "medium", "medium(+)", "long", ""]).optional(),
   potential: z.enum(["suitable for bottle ageing", "not suitable for bottle ageing", ""]).optional(),
+  aging: z.string().optional(),
   conclusion: z.string().optional(),
   tastingNote: z.string().optional(),
   abv: z.coerce.number().optional(),
