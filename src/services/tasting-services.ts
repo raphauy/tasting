@@ -11,13 +11,13 @@ export type TastingDAO = {
 	abv?: number
 	pesoPrice?: number
 	score?: number
-	aromas?: "primary" | "secondary" | "tertiary"
-	acidity?: "low" | "medium(-)" | "medium" | "medium(+)" | "high"
-	tannins?: "low" | "medium(-)" | "medium" | "medium(+)" | "high"
-	body?: "light" | "medium(-)" | "medium" | "medium(+)" | "full"
-	finish?: "short" | "medium(-)" | "medium" | "medium(+)" | "long"
-	potential?: "suitable for bottle ageing" | "not suitable for bottle ageing"
-	conclusion?: string
+	aromas?: "primary" | "secondary" | "tertiary" | ""
+	acidity?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
+	tannins?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
+	body?: "light" | "medium(-)" | "medium" | "medium(+)" | "full" | ""
+	finish?: "short" | "medium(-)" | "medium" | "medium(+)" | "long" | ""
+	potential?: "suitable for bottle ageing" | "not suitable for bottle ageing" | ""
+	conclusion?: string | ""
   tastingDate?: Date
 	wineId: string
 	wine: WineDAO
@@ -31,13 +31,13 @@ export const tastingSchema = z.object({
 	taster: z.string({required_error: "taster is required."}),
 	vintage: z.coerce.number(),
 	wineId: z.string({required_error: "wineId is required."}),
-  colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny"]).optional(),
-  aromas: z.enum(["primary", "secondary", "tertiary"]).optional(),
-  acidity: z.enum(["low", "medium(-)", "medium", "medium(+)", "high"]).optional(),
-  tannins: z.enum(["low", "medium(-)", "medium", "medium(+)", "high"]).optional(),
-  body: z.enum(["light", "medium(-)", "medium", "medium(+)", "full"]).optional(),
-  finish: z.enum(["short", "medium(-)", "medium", "medium(+)", "long"]).optional(),
-  potential: z.enum(["suitable for bottle ageing", "not suitable for bottle ageing"]).optional(),
+  colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny", ""]).optional(),
+  aromas: z.enum(["primary", "secondary", "tertiary", ""]).optional(),
+  acidity: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
+  tannins: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
+  body: z.enum(["light", "medium(-)", "medium", "medium(+)", "full", ""]).optional(),
+  finish: z.enum(["short", "medium(-)", "medium", "medium(+)", "long", ""]).optional(),
+  potential: z.enum(["suitable for bottle ageing", "not suitable for bottle ageing", ""]).optional(),
   conclusion: z.string().optional(),
   abv: z.coerce.number().optional(),
   pesoPrice: z.coerce.number().optional(),

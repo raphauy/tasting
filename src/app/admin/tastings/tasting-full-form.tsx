@@ -42,15 +42,14 @@ export function TastingFullForm({ id }: Props) {
   useEffect(() => {
     if (id) {
       getTastingDAOAction(id).then((data) => {
-        if (data) {          
-          form.setValue("colour", data.colour)
+        if (data) {
           form.reset(data)
         }
-        // Object.keys(form.getValues()).forEach((key: any) => {
-        //   if (form.getValues(key) === null) {
-        //     form.setValue(key, "")
-        //   }
-        // })
+        Object.keys(form.getValues()).forEach((key: any) => {
+          if (form.getValues(key) === null) {
+            form.setValue(key, "")
+          }
+        })
       })
     }
   }, [form, id])
