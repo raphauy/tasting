@@ -11,13 +11,17 @@ import { toast } from "@/components/ui/use-toast"
 import { TastingFormValues, tastingSchema } from '@/services/tasting-services'
 import { WineDAO } from "@/services/wine-services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeOff, Loader } from "lucide-react"
+import { CalendarIcon, Eye, EyeOff, Loader } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { createOrUpdateTastingAction, getTastingDAOAction } from "./tasting-actions"
 import TitleBox from "./title-box"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { format } from "date-fns"
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils"
 
 type Props= {
   id: string
@@ -82,20 +86,6 @@ export function TastingFullForm({ id, producerId }: Props) {
         
             <FormField
               control={form.control}
-              name="vintage"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Vintage</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Tasting's vintage" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="abv"
               render={({ field }) => (
                 <FormItem className="w-full">
@@ -117,6 +107,48 @@ export function TastingFullForm({ id, producerId }: Props) {
                   <FormControl>
                     <Input placeholder="Tasting's peso price" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tastingDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col mt-1.5 gap-1">
+                  <FormLabel>Tasting Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}

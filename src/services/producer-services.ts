@@ -133,7 +133,7 @@ export async function getFullProducersDAO() {
           tastings: {
             orderBy: [
               {
-                vintage: 'asc'
+                tastingDate: 'asc'
               },
               {
                 taster: 'asc'
@@ -142,7 +142,7 @@ export async function getFullProducersDAO() {
           }
         },
         orderBy: {
-          name: 'asc'
+          vintage: 'desc',
         }
       }
 		}
@@ -162,7 +162,7 @@ export async function getFullProducerDAO(id: string) {
           tastings: {
             orderBy: [
               {
-                vintage: 'asc'
+                tastingDate: 'asc'
               },
               {
                 taster: 'asc'
@@ -171,7 +171,7 @@ export async function getFullProducerDAO(id: string) {
           }
         },
         orderBy: {
-          name: 'asc'
+          vintage: 'desc',
         }
       }
     }

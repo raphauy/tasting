@@ -57,7 +57,7 @@ export function ProductorSelector({ selectors }: Props) {
     }
   
     return (
-      <div className="w-full px-1 ">
+      <div className="px-1 w-96">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -71,14 +71,14 @@ export function ProductorSelector({ selectors }: Props) {
                 : "Select producer..."}
               <div className="flex items-center">
                 {value === "ALL" ? selectors.reduce((acc, curr) => acc + curr.count, 0) : value
-                ? selectors.find(selector => selector.name === value)?.count
+                ? "(" + selectors.find(selector => selector.name === value)?.count + ")"
                 : ""}
                 <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
               </div>
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="min-w-[230px] p-0">
+          <PopoverContent className="min-w-[230px] p-0 w-96">
             <Command filter={customFilter} >
               <div className='flex items-center w-full gap-1 p-2 border border-gray-300 rounded-md shadow'>
                   <Search className="w-4 h-4 mx-1 opacity-50 shrink-0" />
@@ -108,7 +108,7 @@ export function ProductorSelector({ selectors }: Props) {
                       )}
                     />
                     <div className="flex justify-between w-full">
-                      <p>{item.name}</p>
+                      <p className="text-nowrap">{item.name}</p>
                       <p>{item.count}</p>
                     </div>
                   </CommandItem>

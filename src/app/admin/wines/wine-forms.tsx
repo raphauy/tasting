@@ -80,6 +80,19 @@ export function WineForm({ id, producerId, closeDialog }: Props) {
             )}
           />
           
+          <FormField
+            control={form.control}
+            name="vintage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vintage</FormLabel>
+                <FormControl>
+                  <Input placeholder="Wine's vintage" {...field} type="number" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
       
           <FormField
             control={form.control}

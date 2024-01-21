@@ -6,7 +6,6 @@ import { ProducerDAO } from "./producer-services"
 export type TastingDAO = {
 	id: string
 	taster: string
-	vintage: number
   style?: "sparkling" | "white" | "rosé" | "red" | "fortified" | ""
 	colour?: "lemon" | "gold" | "amber" | "pink" | "pink-orange" | "orange" | "purple" | "ruby" | "garnet" | "tawny"
 	abv?: number
@@ -33,7 +32,6 @@ export type TastingDAO = {
 
 export const tastingSchema = z.object({
 	taster: z.string({required_error: "taster is required."}),
-	vintage: z.coerce.number(),
 	wineId: z.string({required_error: "wineId is required."}),
   colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny", ""]).optional(),
   style: z.enum(["sparkling", "white", "rosé", "red", "fortified", ""]).optional(),
@@ -47,6 +45,7 @@ export const tastingSchema = z.object({
   aging: z.string().optional(),
   conclusion: z.string().optional(),
   tastingNote: z.string().optional(),
+  tastingDate: z.date().optional(),
   abv: z.coerce.number().optional(),
   pesoPrice: z.coerce.number().optional(),
   score: z.coerce.number().optional(),
@@ -139,7 +138,7 @@ export async function getFullTastingDAO(id: string) {
           producer: true,
           tastings: {
             orderBy: {
-              vintage: 'asc'
+              taster: 'asc'
             }
           }
         }

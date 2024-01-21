@@ -22,14 +22,17 @@ export default function WineBox({ wine, initVisible }: Props) {
     
     return (
         <div key={wine.id} className="border p-3 rounded-lg mb-2">
-            <div className="flex justify-between">
-                <div className="flex gap-2 items-center mb-4">
-                    <p className="font-bold text-xl">{wine.name}</p>
+            <div className="flex justify-between items-center mb-2">
+                <div className="flex gap-2">
+                    <p className="place-self-end font-bold text-xl">{wine.name} ({wine.vintage}), </p>
+                    <p className="place-self-end">{wine.region}</p>
+                </div>
+                <div className="flex gap-2 items-center">
                     <Button variant="ghost" onClick={() => setVisible(!visible)}>
                         {visible ? <Eye /> : <EyeOff />}
                     </Button>
+                    <WineControls wine={wine} />
                 </div>
-                <WineControls wine={wine} />
             </div>
             <TastingList tastings={wine.tastings} visible={visible} />
         </div>

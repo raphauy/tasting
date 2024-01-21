@@ -10,6 +10,7 @@ type Props= {
 export default function WineControls({wine}: Props) {
   return (
     <div className="flex items-center">
+        <Separator orientation="vertical" className="mx-1 h-6" />
         <TastingDialog wineId={wine.id} />
         <Separator orientation="vertical" className="mx-1 h-6" />
         <WineDialog id={wine.id} producerId={wine.producerId} />

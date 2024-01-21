@@ -65,7 +65,15 @@ export default async function OverviewPage({ searchParams }: Props) {
                     return (
                         <div key={producer.id} className="mb-24">
                             <div className="flex justify-between border px-2 mb-3 border-verde-claro h-10 bg-slate-50 rounded-lg">
-                                <p className="font-bold text-3xl mb-4">{producer.name}</p>
+                                <div className="flex">
+                                    <p className="font-bold text-3xl mb-4">
+                                        {producer.name} 
+                                    </p>
+                                    <p className="text-lg place-self-end mb-1 ml-5">
+                                        ({producer.wines.length} wines)
+                                    </p>
+
+                                </div>
                                 <ProducerControls producer={producer} />
                             </div>
                             {producer.wines.map((wine) => {
