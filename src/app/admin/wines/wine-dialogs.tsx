@@ -191,7 +191,7 @@ export function WineTastingsBox({ id, closeDialog }: TastingsBoxProps) {
                   tastings.map((item) => {
                   return (
                       <div key={item.id} className="flex items-center justify-between gap-2 mb-1 mr-5">
-                          <p className="whitespace-nowrap">{item.vintage} ({item.taster})</p>
+                          <p className="whitespace-nowrap">({item.taster})</p>
                           <Button variant="secondary" className="h-7" onClick={() => complementaryOut(item.id)}><ChevronsRight /></Button>
                       </div>
                   )})
@@ -209,7 +209,7 @@ export function WineTastingsBox({ id, closeDialog }: TastingsBoxProps) {
                           <Button variant="secondary" className="h-7 x-7" onClick={() => complementaryIn(item.id)}>
                               <ChevronsLeft />
                           </Button>
-                          <p className="whitespace-nowrap">{item.vintage} ({item.taster})</p>
+                          <p className="whitespace-nowrap">({item.taster})</p>
                       </div>
                   )})
               }
