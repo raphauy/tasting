@@ -25,7 +25,7 @@ export default function OverviewBox({ producer, selectorData }: Props) {
     const [wineSearchText, setWineSearchText] = useState("")
     const [initialWines, setInitialWines] = useState<WineDAO[]>(producer?.wines || [])
     const [wines, setWines] = useState<WineDAO[]>(initialWines)
-    const [timAndGabiFilteredWines, setTimAndGabiFilteredWines] = useState<WineDAO[]>(initialWines)
+    const [filteredCount, setFilteredCount] = useState<number>(0)
     const [gabiSelected, setGabiSelected] = useState(true)
     const [timSelected, setTimSelected] = useState(true)
 
@@ -37,27 +37,26 @@ export default function OverviewBox({ producer, selectorData }: Props) {
         let filtered: WineDAO[] = []
 
         if (gabiSelected && timSelected) {
-            setTimAndGabiFilteredWines(producer.wines)
             setWines(producer.wines)
             filtered= producer.wines
         } else if (gabiSelected) {
             filtered= producer.wines.filter((wine) => wine.tastings.some((tasting) => tasting.taster === "Gabi") )
-            setTimAndGabiFilteredWines(filtered)
             setWines(filtered)
         } else if (timSelected) {
             filtered= producer.wines.filter((wine) => wine.tastings.some((tasting) => tasting.taster === "Tim") )
-            setTimAndGabiFilteredWines(filtered)
             setWines(filtered)
         } else {
-            setTimAndGabiFilteredWines([])
             setWines([])
         }
+
+        setFilteredCount(filtered.length)
 
         if (wineSearchText.trim() === "") return
 
         const filtered2= filtered.filter((wine) => wine.name.toLowerCase().includes(wineSearchText.trim().toLocaleLowerCase()) )
 
         setWines(filtered2)
+        setFilteredCount(filtered2.length)
 
     }, [producer, gabiSelected, timSelected, wineSearchText])
     
@@ -113,6 +112,10 @@ export default function OverviewBox({ producer, selectorData }: Props) {
                                     <Switch id="Tim" onCheckedChange={(e) => setTimSelected(!timSelected)} checked={timSelected}/>
                                     <Label htmlFor="Tim">Tim</Label>
                                 </div>
+
+                                <p className="text-lg">
+                                    ({filteredCount} filtered)
+                                </p>
 
                             </div>
                             <ProducerControls producer={producer} />
