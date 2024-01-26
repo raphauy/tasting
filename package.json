@@ -8,7 +8,8 @@
     "start": "next start -p 8051",
     "lint": "next lint",
     "seed": "tsx prisma/seed.ts",
-    "charge": "tsx src/jobs/charge-data.ts"
+    "charge-data": "tsx src/jobs/charge-data.ts",
+    "charge-informes": "tsx src/jobs/charge-informes.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

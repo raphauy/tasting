@@ -125,7 +125,7 @@ export async function setWines(id: string, wines: WineDAO[]) {
 export async function getFullProducersDAO() {
   const found = await prisma.producer.findMany({
     orderBy: {
-      id: 'asc'
+      name: 'asc'
     },
     include: {
 			wines: {
@@ -133,7 +133,7 @@ export async function getFullProducersDAO() {
           tastings: {
             orderBy: [
               {
-                tastingDate: 'asc'
+                vintage: 'asc'
               },
               {
                 taster: 'asc'
@@ -141,9 +141,11 @@ export async function getFullProducersDAO() {
             ]
           }
         },
-        orderBy: {
-          vintage: 'desc',
-        }
+        orderBy: [
+          {
+            name: 'asc'
+          },
+        ]
       }
 		}
   })
@@ -162,7 +164,7 @@ export async function getFullProducerDAO(id: string) {
           tastings: {
             orderBy: [
               {
-                tastingDate: 'asc'
+                vintage: 'asc'
               },
               {
                 taster: 'asc'
@@ -170,9 +172,11 @@ export async function getFullProducerDAO(id: string) {
             ]
           }
         },
-        orderBy: {
-          vintage: 'desc',
-        }
+        orderBy: [
+          {
+            name: 'asc'
+          },
+        ]
       }
     }
   })

@@ -31,7 +31,9 @@ type Props= {
 export function TastingFullForm({ id, producerId }: Props) {
   const form = useForm<TastingFormValues>({
     resolver: zodResolver(tastingSchema),
-    defaultValues: {},
+    defaultValues: {
+      tastingDate: new Date(),
+    },
     mode: "onChange",
   })
   const [loading, setLoading] = useState(false)
@@ -83,7 +85,21 @@ export function TastingFullForm({ id, producerId }: Props) {
                 </FormItem>
               )}
             />           
-        
+
+            <FormField
+              control={form.control}
+              name="vintage"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Vintage</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Wine's vintage" {...field} type="number" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="abv"
@@ -129,7 +145,7 @@ export function TastingFullForm({ id, producerId }: Props) {
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PP")
+                            format(field.value || new Date(), "PP")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -140,7 +156,7 @@ export function TastingFullForm({ id, producerId }: Props) {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value}
+                        selected={field.value}                        
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date < new Date("1900-01-01")

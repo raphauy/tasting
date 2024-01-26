@@ -10,7 +10,46 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 
 
 export const columns: ColumnDef<TastingDAO>[] = [
-  
+
+  {
+    accessorKey: "producerName",
+    header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="pl-0 dark:text-white"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Producer
+            <ArrowUpDown className="w-4 h-4 ml-1" />
+          </Button>
+    )},
+  },
+
+  {
+    accessorKey: "wineName",
+    header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="pl-0 dark:text-white"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Wine
+            <ArrowUpDown className="w-4 h-4 ml-1" />
+          </Button>
+    )},
+  },
+
+  {
+    accessorKey: "vintageString",
+    header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="pl-0 dark:text-white"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Vintage
+            <ArrowUpDown className="w-4 h-4 ml-1" />
+          </Button>
+    )},
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+
   {
     accessorKey: "taster",
     header: ({ column }) => {
@@ -21,27 +60,18 @@ export const columns: ColumnDef<TastingDAO>[] = [
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
     )},
-  },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+},
 
   {
-    accessorKey: "vintage",
+    accessorKey: "style",
     header: ({ column }) => {
         return (
           <Button variant="ghost" className="pl-0 dark:text-white"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Vintage
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "colour",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Colour
+            Style
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
     )},
@@ -69,6 +99,10 @@ export const columns: ColumnDef<TastingDAO>[] = [
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
     )},
+    cell: ({ row }) => {
+      const data= row.original
+      return <div>{data.pesoPrice ? Intl.NumberFormat("es-UY", { style: "currency", currency: "UYU", maximumFractionDigits: 0 }).format(data.pesoPrice) : ""}</div>
+    }
   },
 
   {
@@ -83,89 +117,6 @@ export const columns: ColumnDef<TastingDAO>[] = [
     )},
   },
 
-  {
-    accessorKey: "aromas",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Aromas
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "acidity",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Acidity
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "tannins",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Tannins
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "body",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Body
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "finish",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Finish
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "potential",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Potential
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
-
-  {
-    accessorKey: "conclusion",
-    header: ({ column }) => {
-        return (
-          <Button variant="ghost" className="pl-0 dark:text-white"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Conclusion
-            <ArrowUpDown className="w-4 h-4 ml-1" />
-          </Button>
-    )},
-  },
   // {
   //   accessorKey: "role",
   //   header: ({ column }) => {

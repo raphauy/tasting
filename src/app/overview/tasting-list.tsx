@@ -35,7 +35,7 @@ export default function TastingList({ tastings, visible }: Props) {
                         <Link href={`/overview/${tasting.id}`} prefetch={false} className="w-full">
                             <div className="flex items-center gap-10 border-b w-full">
                                 <p className="min-w-10">{tasting.taster}</p>
-                                <p className="min-w-20 font-semibold text-right">{tasting.tastingDate ? format(tasting.tastingDate, "MMM, YYY") : ""}</p>
+                                <p className="min-w-20 font-semibold text-right">{tasting.vintage}</p>
                                 <p className="min-w-10 text-right">{ tasting.abv ? tasting.abv + "%" : "" }</p>
                                 <p className="min-w-16 text-right">{tasting.pesoPrice ? Intl.NumberFormat("es-UY", { style: "currency", currency: "UYU", maximumFractionDigits: 0 }).format(tasting.pesoPrice) : ""}</p>
                                 <ScoreBox score={tasting.score} visible={visible} />

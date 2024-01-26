@@ -24,7 +24,7 @@ export default function WineBox({ wine, initVisible }: Props) {
         <div key={wine.id} className="border p-3 rounded-lg mb-2">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex gap-2">
-                    <p className="place-self-end font-bold text-xl">{wine.name} ({wine.vintage}), </p>
+                    <p className="place-self-end font-bold text-xl">{wine.name}, </p>
                     <p className="place-self-end">{wine.region}</p>
                 </div>
                 <div className="flex gap-2 items-center">

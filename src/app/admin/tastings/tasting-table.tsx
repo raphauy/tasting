@@ -9,101 +9,52 @@ import { X } from "lucide-react"
 import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import { DataTablePagination } from "@/components/data-table/data-table-pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
   
 interface DataTableToolbarProps<TData> {
-  table: TanstackTable<TData>;
+  table: TanstackTable<TData>
+  vintages: string[]
 }
 
-export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function DataTableToolbar<TData>({ table, vintages }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
     <div className="flex gap-1 dark:text-white items-center">
-        
-          <Input className="max-w-xs" placeholder="taster filter..."
-              value={(table.getColumn("taster")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("taster")?.setFilterValue(event.target.value)}                
+
+          <Input className="max-w-xs" placeholder="producer filter..."
+              value={(table.getColumn("producerName")?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn("producerName")?.setFilterValue(event.target.value)}                
           />
-          
-      
-          <Input className="max-w-xs" placeholder="vintage filter..."
-              value={(table.getColumn("vintage")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("vintage")?.setFilterValue(event.target.value)}                
+
+          <Input className="max-w-xs" placeholder="wine filter..."
+              value={(table.getColumn("wineName")?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn("wineName")?.setFilterValue(event.target.value)}                
           />
-          
-      
-          <Input className="max-w-xs" placeholder="colour filter..."
-              value={(table.getColumn("colour")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("colour")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="abv filter..."
-              value={(table.getColumn("abv")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("abv")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="pesoPrice filter..."
-              value={(table.getColumn("pesoPrice")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("pesoPrice")?.setFilterValue(event.target.value)}                
-          />
-          
-      
+
           <Input className="max-w-xs" placeholder="score filter..."
               value={(table.getColumn("score")?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn("score")?.setFilterValue(event.target.value)}                
           />
           
       
-          <Input className="max-w-xs" placeholder="aromas filter..."
-              value={(table.getColumn("aromas")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("aromas")?.setFilterValue(event.target.value)}                
-          />
           
-      
-          <Input className="max-w-xs" placeholder="acidity filter..."
-              value={(table.getColumn("acidity")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("acidity")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="tannins filter..."
-              value={(table.getColumn("tannins")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("tannins")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="body filter..."
-              value={(table.getColumn("body")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("body")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="finish filter..."
-              value={(table.getColumn("finish")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("finish")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="potential filter..."
-              value={(table.getColumn("potential")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("potential")?.setFilterValue(event.target.value)}                
-          />
-          
-      
-          <Input className="max-w-xs" placeholder="conclusion filter..."
-              value={(table.getColumn("conclusion")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("conclusion")?.setFilterValue(event.target.value)}                
-          />
-          
-        {/* {table.getColumn("role") && roles && (
+        {table.getColumn("taster") && (
           <DataTableFacetedFilter
-            column={table.getColumn("role")}
-            title="Rol"
-            options={roles}
+            column={table.getColumn("taster")}
+            title="Taster"
+            options={["Gabi", "Tim"]}
           />
-        )} */}
+        )}
+
+        {
+          table.getColumn("vintageString") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("vintageString")}
+            title="Vintage"
+            options={vintages}
+          />
+        )}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -126,6 +77,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
   columnsOff?: string[]
   subject: string
+  vintages: string[]
 }
 
 export function DataTable<TData, TValue>({
@@ -133,6 +85,7 @@ export function DataTable<TData, TValue>({
   data,
   columnsOff,
   subject,
+  vintages
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -165,14 +118,15 @@ export function DataTable<TData, TValue>({
   })
   React.useEffect(() => {
     columnsOff && columnsOff.forEach(colName => {
-      table.getColumn(colName)?.toggleVisibility(false)      
+      table.getColumn(colName)?.toggleVisibility(false)
+      table.setPageSize(100)
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [])
 
   return (
     <div className="w-full space-y-4 dark:text-white">
-      <DataTableToolbar table={table}/>
+      <DataTableToolbar table={table} vintages={vintages} />
       <div className="border rounded-md">
         <Table>
           <TableHeader>
@@ -223,7 +177,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} subject={subject}/>
+      <DataTablePagination table={table} subject={subject} />
     </div>
   )
 }

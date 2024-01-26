@@ -19,11 +19,7 @@ export default function MenuAdmin() {
                     </li>
                     <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", path.includes("overview") && searchParams.get("p") !== "ALL" && "border-b-2")}>
                         <Link href={`/overview`}><Button className="text-lg" variant="ghost">Overview</Button></Link>
-                    </li>
-                    <li className={cn("flex items-center border-b-first-color hover:border-b-first-color hover:border-b-2 h-11", searchParams.get("p") === "ALL" && "border-b-2")}>
-                        <Link href={`/overview?p=ALL`}><Button className="text-lg" variant="ghost">ALL</Button></Link>
-                    </li>
-                    
+                    </li>                    
                 </ul>
             </nav>
         </div>

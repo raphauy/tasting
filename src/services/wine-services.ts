@@ -7,7 +7,6 @@ import { getTastingsDAO } from "./tasting-services"
 export type WineDAO = {
 	id: string
 	name: string
-  vintage: number
 	region: string
 	country: string
 	producerId: string
@@ -19,7 +18,6 @@ export type WineDAO = {
 
 export const wineSchema = z.object({
 	name: z.string({required_error: "name is required."}),
-  vintage: z.number({required_error: "vintage is required."}),
 	region: z.string({required_error: "region is required."}),
 	producerId: z.string({required_error: "producerId is required."}),
 })

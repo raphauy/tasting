@@ -1,15 +1,13 @@
-import { ProducerDAO, getFullProducerDAO, getFullProducersDAO, getProducersDAO } from "@/services/producer-services"
-import { ProducerDialog } from "../admin/producers/producer-dialogs"
-import { TooltipProvider } from "@/components/ui/tooltip"
-import ProducerControls from "./producer-controls"
-import WineControls from "./wine-controls"
-import TastingList from "./tasting-list"
-import WineBox from "./wine-box"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { ProducerDAO, getFullProducerDAO, getFullProducersDAO } from "@/services/producer-services"
 import { Eye, EyeOff } from "lucide-react"
+import Link from "next/link"
+import { ProducerDialog } from "../admin/producers/producer-dialogs"
+import ProducerControls from "./producer-controls"
 import { ProductorSelector, SelectorData } from "./productor-selector"
-import { count } from "console"
+import WineBox from "./wine-box"
+import OverviewBox from "./overview-box"
 
 type Props = {
     searchParams: {
@@ -34,57 +32,13 @@ export default async function OverviewPage({ searchParams }: Props) {
         }
     })
 
-    if (p && p !== "ALL") {
-        const producer= await getFullProducerDAO(p)
-        producers= []
-        producers.push(producer)        
-    } else if (p && p === "ALL") {
-        producers= await getFullProducersDAO()
-    } else {
-        producers= []
+    let producer: ProducerDAO | undefined= undefined
+
+    if (p) {        
+        producer= await getFullProducerDAO(p)
     }
 
     return (
-        <TooltipProvider delayDuration={0}>
-            <div className="w-full">
-                <div className="flex w-full justify-between items-center">
-                    <div className="w-fit">
-                        <ProductorSelector selectors={selectorData} />
-                    </div>
-                    <div className="flex justify-end mt-2 mb-4">
-                        <Link href={`/overview?v=${initVisible ? "false" : "true"}`} prefetch={false}>
-                            <Button variant="ghost">
-                                {initVisible ? <Eye /> : <EyeOff />}
-                            </Button>
-                        </Link>
-                        <ProducerDialog />
-                    </div>
-                </div>
-
-                {producers.map((producer) => {
-                    return (
-                        <div key={producer.id} className="mb-24">
-                            <div className="flex justify-between border px-2 mb-3 border-verde-claro h-10 bg-slate-50 rounded-lg">
-                                <div className="flex">
-                                    <p className="font-bold text-3xl mb-4">
-                                        {producer.name} 
-                                    </p>
-                                    <p className="text-lg place-self-end mb-1 ml-5">
-                                        ({producer.wines.length} wines)
-                                    </p>
-
-                                </div>
-                                <ProducerControls producer={producer} />
-                            </div>
-                            {producer.wines.map((wine) => {
-                                return (
-                                    <WineBox key={wine.id} wine={wine} initVisible={initVisible} />
-                                )
-                            })}
-                        </div>
-                    )
-                })}
-            </div>
-        </TooltipProvider>
+        <OverviewBox producer={producer} selectorData={selectorData}/>
     )
 }

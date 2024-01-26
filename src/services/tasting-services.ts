@@ -6,6 +6,8 @@ import { ProducerDAO } from "./producer-services"
 export type TastingDAO = {
 	id: string
 	taster: string
+  vintage: number
+  vintageString?: string
   style?: "sparkling" | "white" | "rosé" | "red" | "fortified" | ""
 	colour?: "lemon" | "gold" | "amber" | "pink" | "pink-orange" | "orange" | "purple" | "ruby" | "garnet" | "tawny"
 	abv?: number
@@ -33,6 +35,7 @@ export type TastingDAO = {
 export const tastingSchema = z.object({
 	taster: z.string({required_error: "taster is required."}),
 	wineId: z.string({required_error: "wineId is required."}),
+  vintage: z.coerce.number(),
   colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny", ""]).optional(),
   style: z.enum(["sparkling", "white", "rosé", "red", "fortified", ""]).optional(),
   aromas: z.enum(["primary", "secondary", "tertiary", ""]).optional(),
@@ -60,10 +63,25 @@ export async function getTastingsDAO() {
       id: 'asc'
     },
     include: {
-      wine: true
+      wine: {
+        include: {
+          producer: true
+        }
+      }
     }    
   })
-  return found as TastingDAO[]
+
+  // @ts-ignore
+  const res: TastingDAO[] = found.map(tasting => {
+    return {
+      ...tasting,
+      wineName: tasting.wine.name,
+      producerName: tasting.wine.producer.name,
+      vintageString: tasting.vintage.toString()
+    }
+  })
+
+  return res
 }
 
 export async function getTastingDAO(id: string) {

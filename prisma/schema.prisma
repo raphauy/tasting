@@ -67,7 +67,6 @@ model Producer {
 model Wine {
   id             String       @id @default(cuid())
   name           String       // gennext: show.column
-  vintage        Int          // gennext: show.column
   region         String       // gennext: show.column
   country        String       @default("Uruguay")// gennext: skip.zod
 
@@ -83,6 +82,7 @@ model Wine {
 model Tasting {
   id             String       @id @default(cuid())
   taster         String       // gennext: show.column
+  vintage        Int          // gennext: show.column
 
   style          String?      // gennext: show.column
   colour         String?      // gennext: show.column
