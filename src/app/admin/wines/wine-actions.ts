@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/lib/auth"
 import { WineDAO, WineFormValues, createWine, updateWine, getFullWineDAO, deleteWine } from "@/services/wine-services"
 
 import { getComplentaryTastings, setTastings} from "@/services/wine-services"
-import { TastingDAO } from "@/services/tasting-services"
+import { TastingDAO, getTastingDAO, getTastingsDAOByWineId } from "@/services/tasting-services"
     
 
 export async function getWineDAOAction(id: string): Promise<WineDAO | null> {
@@ -43,6 +43,17 @@ export async function getComplentaryTastingsAction(id: string): Promise<TastingD
     const complementary= await getComplentaryTastings(id)
 
     return complementary as TastingDAO[]
+}
+
+export async function getOtherTastingsAction(tastingId: string): Promise<TastingDAO[]> {
+    const tasting= await getTastingDAO(tastingId)
+    if (!tasting) {
+        throw new Error("Tasting not found")
+    }
+    const allTastings= await getTastingsDAOByWineId(tasting.wineId)
+    const otherTastings= allTastings.filter(aux => {return aux.id !== tastingId})
+
+    return otherTastings as TastingDAO[]
 }
 
 export async function setTastingsAction(id: string, tastings: TastingDAO[]): Promise<boolean> {

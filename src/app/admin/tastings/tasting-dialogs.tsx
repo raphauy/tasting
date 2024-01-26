@@ -2,9 +2,9 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { ClipboardPasteIcon, Pencil, PlusCircle, Trash2, Wine } from "lucide-react";
+import { ArrowLeftRight, ClipboardPasteIcon, Pencil, PlusCircle, Trash2, Wine } from "lucide-react";
 import { useState } from "react";
-import { DeleteTastingForm, TastingForm } from "./tasting-forms";
+import { ChangeWineForm, DeleteTastingForm, TastingForm } from "./tasting-forms";
 
 type Props= {
   id?: string
@@ -51,7 +51,31 @@ export function TastingDialog({ id, wineId }: Props) {
     </Dialog>
   )
 }
-  
+
+type ChangeWineProps= {
+  id: string
+  wineId: string
+}
+
+export function ChangeWineDialog({ id, wineId }: ChangeWineProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <ArrowLeftRight className="h-5 w-5" />
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Change Wine
+          </DialogTitle>
+        </DialogHeader>
+        <ChangeWineForm closeDialog={() => setOpen(false)} id={id} wineId={wineId} />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 type DeleteProps= {
   id: string
   description: string

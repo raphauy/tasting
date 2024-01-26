@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Info } from "lucide-react"
 import { format } from "date-fns"
+import { ChangeWineDialog } from "../admin/tastings/tasting-dialogs"
 
 type Props = {
     tastings: TastingDAO[]
@@ -39,6 +40,8 @@ export default function TastingList({ tastings, visible }: Props) {
                                 <p className="min-w-10 text-right">{ tasting.abv ? tasting.abv + "%" : "" }</p>
                                 <p className="min-w-16 text-right">{tasting.pesoPrice ? Intl.NumberFormat("es-UY", { style: "currency", currency: "UYU", maximumFractionDigits: 0 }).format(tasting.pesoPrice) : ""}</p>
                                 <ScoreBox score={tasting.score} visible={visible} />
+                                <div className="flex-1">
+
                                     {
                                         tasting.tastingNote && (
                                             <div className="flex items-center justify-between w-full py-2">
@@ -58,9 +61,10 @@ export default function TastingList({ tastings, visible }: Props) {
                                             </div>
                                         )
                                     }
-
+                                </div>
                             </div>
                         </Link>
+                        <ChangeWineDialog id={tasting.id} wineId={tasting.wineId} />
 
                         {/* {
                             hoverId === tasting.id &&

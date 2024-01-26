@@ -5,7 +5,7 @@ import { TastingDAO } from "@/services/tasting-services"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { format } from "date-fns"
-import { DeleteTastingDialog, TastingDialog } from "./tasting-dialogs"
+import { ChangeWineDialog, DeleteTastingDialog, TastingDialog } from "./tasting-dialogs"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
 
@@ -143,6 +143,7 @@ export const columns: ColumnDef<TastingDAO>[] = [
         <TooltipProvider delayDuration={0}>
           <div className="flex items-center justify-end gap-2">
 
+            <ChangeWineDialog id={data.id} wineId={data.wineId} />
             <TastingDialog id={data.id} wineId={data.wineId} />
             <DeleteTastingDialog description={deleteDescription} id={data.id} />
           </div>

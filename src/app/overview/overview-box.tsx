@@ -60,20 +60,6 @@ export default function OverviewBox({ producer, selectorData }: Props) {
 
     }, [producer, gabiSelected, timSelected, wineSearchText])
     
-
-    // function filterWine(text: string) {
-    //     setWineSearchText(text)
-        
-    //     if (text.trim() === "") {
-    //         setWines(timAndGabiFilteredWines)
-    //         return
-    //     }
-    //     const filtered= timAndGabiFilteredWines.filter((wine) => wine.name.toLowerCase().includes(text.trim().toLocaleLowerCase()) )
-
-    //     setWines(filtered)
-    // }
-    
-
     return (
         <TooltipProvider delayDuration={0}>
             <div className="w-full">

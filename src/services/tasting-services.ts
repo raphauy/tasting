@@ -84,6 +84,36 @@ export async function getTastingsDAO() {
   return res
 }
 
+export async function getTastingsDAOByWineId(wineId: string) {
+  const found = await prisma.tasting.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    where: {
+      wineId
+    },
+    include: {
+      wine: {
+        include: {
+          producer: true
+        }
+      }
+    }    
+  })
+
+  // @ts-ignore
+  const res: TastingDAO[] = found.map(tasting => {
+    return {
+      ...tasting,
+      wineName: tasting.wine.name,
+      producerName: tasting.wine.producer.name,
+      vintageString: tasting.vintage.toString()
+    }
+  })
+
+  return res
+}
+
 export async function getTastingDAO(id: string) {
   const found = await prisma.tasting.findUnique({
     where: {
@@ -114,6 +144,18 @@ export async function updateTasting(id: string, data: TastingFormValues) {
       id
     },
     data
+  })
+  return updated
+}
+
+export async function setWineId(tastingId: string, wineId: string) {
+  const updated = await prisma.tasting.update({
+    where: {
+      id: tastingId
+    },
+    data: {
+      wineId
+    }
   })
   return updated
 }
