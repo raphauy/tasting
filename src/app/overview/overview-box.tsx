@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ProducerDAO } from "@/services/producer-services"
 import { Eye, EyeOff, Search } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ProducerDialog } from "../admin/producers/producer-dialogs"
 import ProducerControls from "./producer-controls"
 import { ProductorSelector, SelectorData } from "./productor-selector"
 import WineBox from "./wine-box"
 import { Input } from "@/components/ui/input"
 import { WineDAO } from "@/services/wine-services"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
 
 type Props = {
     producer: ProducerDAO | undefined
@@ -23,17 +25,54 @@ export default function OverviewBox({ producer, selectorData }: Props) {
     const [wineSearchText, setWineSearchText] = useState("")
     const [initialWines, setInitialWines] = useState<WineDAO[]>(producer?.wines || [])
     const [wines, setWines] = useState<WineDAO[]>(initialWines)
+    const [timAndGabiFilteredWines, setTimAndGabiFilteredWines] = useState<WineDAO[]>(initialWines)
+    const [gabiSelected, setGabiSelected] = useState(true)
+    const [timSelected, setTimSelected] = useState(true)
 
-    function filterWine(text: string) {
-        setWineSearchText(text)
+    useEffect(() => {
+        if (!producer) return
+
+        console.log("filtrando");
         
-        if (text.trim() === "") {
-            setWines(initialWines)
-            return
+        let filtered: WineDAO[] = []
+
+        if (gabiSelected && timSelected) {
+            setTimAndGabiFilteredWines(producer.wines)
+            setWines(producer.wines)
+            filtered= producer.wines
+        } else if (gabiSelected) {
+            filtered= producer.wines.filter((wine) => wine.tastings.some((tasting) => tasting.taster === "Gabi") )
+            setTimAndGabiFilteredWines(filtered)
+            setWines(filtered)
+        } else if (timSelected) {
+            filtered= producer.wines.filter((wine) => wine.tastings.some((tasting) => tasting.taster === "Tim") )
+            setTimAndGabiFilteredWines(filtered)
+            setWines(filtered)
+        } else {
+            setTimAndGabiFilteredWines([])
+            setWines([])
         }
-        const filtered= initialWines.filter((wine) => wine.name.includes(text.trim().toLocaleLowerCase()) )
-        setWines(filtered)
-    }
+
+        if (wineSearchText.trim() === "") return
+
+        const filtered2= filtered.filter((wine) => wine.name.toLowerCase().includes(wineSearchText.trim().toLocaleLowerCase()) )
+
+        setWines(filtered2)
+
+    }, [producer, gabiSelected, timSelected, wineSearchText])
+    
+
+    // function filterWine(text: string) {
+    //     setWineSearchText(text)
+        
+    //     if (text.trim() === "") {
+    //         setWines(timAndGabiFilteredWines)
+    //         return
+    //     }
+    //     const filtered= timAndGabiFilteredWines.filter((wine) => wine.name.toLowerCase().includes(text.trim().toLocaleLowerCase()) )
+
+    //     setWines(filtered)
+    // }
     
 
     return (
@@ -64,7 +103,15 @@ export default function OverviewBox({ producer, selectorData }: Props) {
                                 </p>
                                 <div className="relative">
                                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Search wine" value={wineSearchText} className="pl-8" onChange={(e) => filterWine(e.target.value)} />
+                                    <Input placeholder="Search wine" value={wineSearchText} className="pl-8" onChange={(e) => setWineSearchText(e.target.value)} />
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <Switch id="Gabi" onCheckedChange={(e) => setGabiSelected(!gabiSelected)} checked={gabiSelected}/>
+                                    <Label htmlFor="Gabi">Gabi</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <Switch id="Tim" onCheckedChange={(e) => setTimSelected(!timSelected)} checked={timSelected}/>
+                                    <Label htmlFor="Tim">Tim</Label>
                                 </div>
 
                             </div>

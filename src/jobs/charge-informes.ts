@@ -131,8 +131,6 @@ async function deleteAll() {
 }
 
 async function main() {
-  // await deleteAll();
-  // return
   let results: TasteEntry[] = await parsear('/home/raphael/Downloads/tasting_2024/informe_2020_modificado.csv')
   await processWineEntries(results, new Date("2020-02-01"))
 
