@@ -1,7 +1,6 @@
 # Agregado por RC
 .env
 bun.lockb
-/src/jobs/charge-data.ts
 
 # dependencies
 /node_modules
