@@ -62,8 +62,6 @@ export const columns: ColumnDef<WineDAO>[] = [
         <TooltipProvider delayDuration={0}>
           <div className="flex items-center justify-end gap-2">
 
-            <TastingsDialog id={data.id} title={"Tastings"} />
-    
             <WineDialog id={data.id} producerId={data.producerId} />
             <DeleteWineDialog description={deleteDescription} id={data.id} />
           </div>

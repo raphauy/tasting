@@ -16,16 +16,14 @@ export default function ScoreBox({ score, visible }: Props) {
     // green-200: 96+
 
     let color= "bg-red-100"
-    let textColor= "text-red-100"
     if (score >= 90 && score <= 92) {
         color= "bg-yellow-100"
-        textColor= "text-yellow-100"
     } else if (score >= 93 && score <= 95) {
         color= "bg-green-100"        
-        textColor= "text-green-100"
-    } else if (score >= 96) {
+    } else if (score >= 96 && score <= 98) {
         color= "bg-green-200"
-        textColor= "text-green-200"
+    } else if (score >= 99) {
+        color= "bg-yellow-300"
     }
 
     return (

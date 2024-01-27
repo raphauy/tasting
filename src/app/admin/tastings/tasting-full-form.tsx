@@ -1,16 +1,18 @@
 "use client"
 
-import TastingList from "@/app/overview/tasting-list"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
+import { cn } from "@/lib/utils"
 import { TastingFormValues, tastingSchema } from '@/services/tasting-services'
-import { WineDAO } from "@/services/wine-services"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { format } from "date-fns"
 import { CalendarIcon, Eye, EyeOff, Loader } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -18,10 +20,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { createOrUpdateTastingAction, getTastingDAOAction } from "./tasting-actions"
 import TitleBox from "./title-box"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
+import { Checkbox } from "@/components/ui/checkbox"
 
 type Props= {
   id: string
@@ -33,6 +32,7 @@ export function TastingFullForm({ id, producerId }: Props) {
     resolver: zodResolver(tastingSchema),
     defaultValues: {
       tastingDate: new Date(),
+      aromasDescriptors: "primary: \nsecondary: \ntertiary: \n",
     },
     mode: "onChange",
   })
@@ -40,6 +40,7 @@ export function TastingFullForm({ id, producerId }: Props) {
 
   const onSubmit = async (data: TastingFormValues) => {
     setLoading(true)
+    
     try {
       await createOrUpdateTastingAction(id, data)
       toast({ title: id ? "Tasting updated" : "Tasting created" })
@@ -54,13 +55,20 @@ export function TastingFullForm({ id, producerId }: Props) {
     if (id) {
       getTastingDAOAction(id).then((data) => {
         if (data) {
-          form.reset(data)
+          form.reset({
+            ...data,
+            tastingDate: new Date(data.tastingDate ? data.tastingDate : new Date()),
+          })
         }
         Object.keys(form.getValues()).forEach((key: any) => {
           if (form.getValues(key) === null) {
             form.setValue(key, "")
           }
         })
+        const aromasDescriptors= form.getValues("aromasDescriptors")
+        if (aromasDescriptors === "") {
+          form.setValue("aromasDescriptors", "primary: \nsecondary: \ntertiary: \n")
+        }
       })
     }
   }, [form, id])
@@ -304,44 +312,9 @@ export function TastingFullForm({ id, producerId }: Props) {
 
           <TitleBox title="Nose" />
 
-          <FormField
-            control={form.control}
-            name="aromas"
-            render={({ field }) => (
-              <FormItem className="flex items-center pb-5 pl-2 justify-between">
-                <div className="font-bold flex items-center gap-5">
-                  <p className="w-20 mt-0.5">Aromas:</p>
-                  <p className="text-black text-2xl">{field.value}</p>
-                </div>
-                <FormControl>
-                  <RadioGroup                  
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col gap-4"
-                  >
-                    <div className="flex gap-4 pb-1">
-                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
-                        <FormControl><RadioGroupItem value="primary" /></FormControl>
-                        <FormLabel>primary</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
-                        <FormControl><RadioGroupItem value="secondary" /></FormControl>
-                        <FormLabel>secondary</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0 w-28">
-                        <FormControl><RadioGroupItem value="tertiary" /></FormControl>
-                        <FormLabel>tertiary</FormLabel>
-                      </FormItem>
-                    </div>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <TooltipProvider delayDuration={0}>
-            <div className="flex ml-28 gap-7">
+            <div className="flex ml-52 gap-7">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex hover:text-muted-foreground justify-center font-bold items-center bg-green-200 w-6 h-6 border rounded-full">1</div>
@@ -368,14 +341,15 @@ export function TastingFullForm({ id, producerId }: Props) {
               </Tooltip>
             </div>
           </TooltipProvider>
+
           <FormField
             control={form.control}
             name="aromasDescriptors"
             render={({ field }) => (
               <FormItem className="w-full flex items-center gap-2">
-                <p className="ml-2 font-bold mt-2">Descriptors:</p>
+                <p className="ml-2 w-56 font-bold mt-2">Aroma descriptors:</p>
                 <FormControl>
-                  <Input placeholder="Aromas descriptors" {...field} />
+                  <Textarea className="pt-5 text-base" rows={4} placeholder="Aromas descriptors" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

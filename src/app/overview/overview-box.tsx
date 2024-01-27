@@ -32,8 +32,6 @@ export default function OverviewBox({ producer, selectorData }: Props) {
     useEffect(() => {
         if (!producer) return
 
-        console.log("filtrando");
-        
         let filtered: WineDAO[] = []
 
         if (gabiSelected && timSelected) {
@@ -80,7 +78,7 @@ export default function OverviewBox({ producer, selectorData }: Props) {
                     <div className="mb-24">
                         <div className="flex justify-between border px-2 mb-3 border-verde-claro h-12 items-center bg-slate-50 rounded-lg">
                             <div className="flex items-center gap-5">
-                                <p className="font-bold text-3xl">
+                                <p className="font-bold text-3xl text-verde-oscuro">
                                     {producer.name} 
                                 </p>
                                 <p className="text-lg">

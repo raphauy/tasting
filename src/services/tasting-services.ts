@@ -13,7 +13,6 @@ export type TastingDAO = {
 	abv?: number
 	pesoPrice?: number
 	score?: number
-	aromas?: "primary" | "secondary" | "tertiary" | ""
   aromasDescriptors?: string
 	acidity?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
 	tannins?: "low" | "medium(-)" | "medium" | "medium(+)" | "high" | ""
@@ -38,7 +37,6 @@ export const tastingSchema = z.object({
   vintage: z.coerce.number(),
   colour: z.enum(["lemon", "gold", "amber", "pink", "pink-orange", "orange", "purple", "ruby", "garnet", "tawny", ""]).optional(),
   style: z.enum(["sparkling", "white", "rosé", "red", "fortified", ""]).optional(),
-  aromas: z.enum(["primary", "secondary", "tertiary", ""]).optional(),
   aromasDescriptors: z.string().optional(),
   acidity: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
   tannins: z.enum(["low", "medium(-)", "medium", "medium(+)", "high", ""]).optional(),
@@ -131,7 +129,6 @@ export async function getTastingDAO(id: string) {
 }
     
 export async function createTasting(data: TastingFormValues) {
-  // TODO: implement createTasting
   const created = await prisma.tasting.create({
     data
   })
