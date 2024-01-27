@@ -181,5 +181,6 @@ export async function getFullProducerDAO(id: string) {
     }
   })
   
-  return found as ProducerDAO
+   // @ts-ignore
+   return found as ProducerDAO
 }
