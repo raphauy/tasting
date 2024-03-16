@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 8051",
+    "postinstall": "prisma generate",
     "lint": "next lint",
     "seed": "tsx prisma/seed.ts",
     "charge-data": "tsx src/jobs/charge-data.ts",
