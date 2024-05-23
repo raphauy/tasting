@@ -9,6 +9,7 @@ import { TailwindIndicator } from '@/components/shadcn/tailwind-indicator'
 import { cn } from '@/lib/utils'
 import getSession from '@/lib/auth'
 import { GeistSans } from "geist/font";
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: 'Gabi Tasting',
@@ -42,6 +43,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
                 <div className="flex flex-col items-center flex-1">
                   {children}
+                  <Analytics />
                   <Toaster />
                 </div>
               </div>            
